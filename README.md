@@ -2,7 +2,7 @@
 
 Welcome to the **Tyon Testnet** — a modular, auditable sandbox for staging FRE document serialization, metadata stamping, and trust-first protocol flows.
 
-> “Break it. Rebuild it. Trust it.” — Byte
+> “Break it. Rebuild it. Trust it.” 
 
 ---
 
