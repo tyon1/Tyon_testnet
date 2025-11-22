@@ -43,10 +43,32 @@ pdfInput.addEventListener("change", async () => {
     const buffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
     pageCountField.value = pdf.numPages;
+
+    // Enable buttons once PDF is loaded
+    ["encryptBtn","decryptBtn","obfuscateBtn","maskBtn","copyBtn"].forEach(id=>{
+      const btn = document.getElementById(id);
+      if(btn) btn.disabled = false;
+    });
   } catch (err) {
     console.error("PDF.js error:", err);
     pageCountField.value = "N/A";
   }
+});
+
+// ========================
+// Action Buttons (Testnet Demo)
+// ========================
+function demoAction(name){
+  alert(`${name} action executed (Testnet demo).`);
+}
+
+document.getElementById("encryptBtn").addEventListener("click", ()=>demoAction("Encrypt"));
+document.getElementById("decryptBtn").addEventListener("click", ()=>demoAction("Decrypt"));
+document.getElementById("obfuscateBtn").addEventListener("click", ()=>demoAction("Obfuscate"));
+document.getElementById("maskBtn").addEventListener("click", ()=>demoAction("Mask"));
+document.getElementById("copyBtn").addEventListener("click", ()=>{
+  const filename = document.getElementById("filename").value;
+  navigator.clipboard.writeText(filename).then(()=>alert("Filename copied!"));
 });
 
 // ========================

@@ -1,111 +1,101 @@
-/* ===========================
-   TESTNET BASE THEME
-   =========================== */
-
+/* Base Styles */
 body {
   margin: 0;
-  padding: 0;
-  font-family: "Inter", sans-serif;
-  background: #1f1a13; /* Charcoal */
-  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  background-color: #eaf7ff; /* lighter blue background for Testnet */
+  color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 /* Header */
-#header {
+header {
+  width: 100%;
+  background-color: #b3e5fc; /* soft blue for Testnet */
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 15px 20px;
-  background: #ffb300; /* Amber testnet */
-  border-bottom: 4px solid #000;
+  padding: 10px 20px;
+  gap: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-#header h1 {
+header h1 {
   margin: 0;
-  color: #000;
+  font-size: 1.5rem;
+  color: #003366; /* darker blue text */
 }
-
 #logo {
-  height: 50px;
-}
-
-/* Testnet Banner */
-#testnetBanner {
-  width: 100%;
-  background: #ffb300;
-  color: #000;
-  padding: 10px 0;
-  text-align: center;
-  font-weight: 700;
-  letter-spacing: 1px;
-  border-bottom: 2px solid #000;
+  height: 40px;
 }
 
 /* Screens */
-.screen {
-  padding: 20px;
+.screen { display: none; padding: 20px; width: 100%; max-width: 400px; }
+.screen.active { display: block; }
+
+.header-glow {
+  font-size: 1.6rem;
+  color: #003366; /* darker blue for headers */
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-.hidden {
-  display: none;
-}
-
-/* Inputs */
-input,
-select {
+.input-group { margin-bottom: 15px; }
+input, select {
   width: 100%;
   padding: 10px;
-  margin-top: 6px;
-  margin-bottom: 18px;
-  border: 1px solid #ffb300;
-  background: #111;
-  color: #ffb300;
-}
-
-/* Fieldsets */
-fieldset {
-  border: 1px solid #ffb300;
-  padding: 15px;
-  margin-bottom: 20px;
+  border-radius: 4px;
+  border: 1px solid #666;
+  margin-top: 5px;
 }
 
 /* Buttons */
-button,
-.btn-action,
-.btn-confirm {
-  background: #ffb300;
-  color: #000;
-  border: 1px solid #000;
-  padding: 10px 14px;
-  font-weight: 600;
+button {
+  padding: 10px 15px;
+  border-radius: 4px;
   cursor: pointer;
+  border: 1px solid #004080;
+  background-color: #cceeff; /* light blue */
+  color: #003366; /* text matches header */
 }
-
-button:hover,
-.btn-action:hover,
-.btn-confirm:hover {
-  background: #ffd54f;
+button:disabled {
+  background-color: #b3d9ff;
+  border-color: #99c2ff;
+  cursor: not-allowed;
+}
+button:hover:not(:disabled) {
+  background-color: #99ccff;
 }
 
 /* Upload Toggle */
-.upload-toggle button {
-  margin-right: 10px;
-}
-
-/* Glow header */
-.header-glow {
-  text-shadow: 0 0 12px #ffb300aa;
-}
-
-/* Warning text */
-.warning {
-  color: #ffb300;
+.upload-toggle { text-align: center; margin-bottom: 20px; }
+.upload-toggle button { margin: 0 5px; }
+.upload-toggle button.active {
+  background-color: #66b2ff; /* highlight active toggle */
   font-weight: bold;
+  color: white;
 }
 
-/* Results Box */
-#resultsBox {
-  border: 1px solid #ffb300;
-  padding: 20px;
-  background: #14100b;
+/* Button Group Actions */
+.button-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
+.btn-action { flex: 1; }
+
+/* Timer & Results */
+#timerBox, #resultsBox {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #e0f3ff; /* light background for results */
+  border: 1px solid #99c2ff;
+}
+.warning { color: #b22222; font-weight: bold; }
+
+/* Testnet Banner */
+#testnetBanner {
+  font-weight: bold;
+  text-align: center;
+  background-color: #ff4d4d;
+  color: white;
+  padding: 0.5rem;
+  border-bottom: 2px solid #cc0000;
 }
