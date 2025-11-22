@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tyon | Testnet</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="Test_styles.css">
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+  </script>
+
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="header">
+    <img src="logo.png" id="logo" alt="Tyon">
+    <h1>Tyon Serialization (Testnet)</h1>
+  </header>
+
+  <!-- Testnet Banner -->
+  <div id="testnetBanner">TESTNET MODE — Sandbox Environment</div>
+
+  <!-- Main App -->
+  <div id="tyonApp">
+
+    <!-- Step 1 -->
+    <section id="identityScreen" class="screen active">
+      <h2>Identify Yourself</h2>
+      <form id="identityForm">
+        <label>Name</label>
+        <input type="text" id="userName" required>
+
+        <label>Company</label>
+        <input type="text" id="companyName" required>
+
+        <button id="proceedBtn" type="submit" disabled>Proceed</button>
+      </form>
+    </section>
+
+    <!-- Step 2 -->
+    <section id="uploadScreen" class="screen hidden">
+      <h2>Upload Your Document</h2>
+
+      <label>Select PDF</label>
+      <input type="file" id="pdfFile" accept="application/pdf">
+
+      <label>Filename</label>
+      <input type="text" id="filename" readonly>
+
+      <label>Page Count</label>
+      <input type="text" id="pageCount" readonly>
+
+      <label>Memo</label>
+      <input type="text" id="memo">
+
+      <button id="submitBtn">Submit</button>
+
+      <!-- Results -->
+      <div id="resultsBox" class="hidden">
+        <h3>Document Metadata</h3>
+        <p><strong>Filename:</strong> <span id="tyonId"></span></p>
+        <p><strong>Pages:</strong> <span id="timestamp"></span></p>
+        <p><a id="hashscanLink" target="_blank">View on HashScan</a></p>
+        <p><a id="stampedPdfLink" download>Download Stamped File</a></p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- App Logic -->
+  <script src="Test_script.js"></script>
+
+</body>
+</html>
+

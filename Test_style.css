@@ -1,0 +1,111 @@
+/* ===========================
+   TESTNET BASE THEME
+   =========================== */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: #1f1a13; /* Charcoal */
+  color: #fff;
+}
+
+/* Header */
+#header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 20px;
+  background: #ffb300; /* Amber testnet */
+  border-bottom: 4px solid #000;
+}
+
+#header h1 {
+  margin: 0;
+  color: #000;
+}
+
+#logo {
+  height: 50px;
+}
+
+/* Testnet Banner */
+#testnetBanner {
+  width: 100%;
+  background: #ffb300;
+  color: #000;
+  padding: 10px 0;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #000;
+}
+
+/* Screens */
+.screen {
+  padding: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Inputs */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  margin-bottom: 18px;
+  border: 1px solid #ffb300;
+  background: #111;
+  color: #ffb300;
+}
+
+/* Fieldsets */
+fieldset {
+  border: 1px solid #ffb300;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+button,
+.btn-action,
+.btn-confirm {
+  background: #ffb300;
+  color: #000;
+  border: 1px solid #000;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover,
+.btn-action:hover,
+.btn-confirm:hover {
+  background: #ffd54f;
+}
+
+/* Upload Toggle */
+.upload-toggle button {
+  margin-right: 10px;
+}
+
+/* Glow header */
+.header-glow {
+  text-shadow: 0 0 12px #ffb300aa;
+}
+
+/* Warning text */
+.warning {
+  color: #ffb300;
+  font-weight: bold;
+}
+
+/* Results Box */
+#resultsBox {
+  border: 1px solid #ffb300;
+  padding: 20px;
+  background: #14100b;
+}
