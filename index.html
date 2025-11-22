@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tyon Serialization: Immutable document metadata capture">
-  <title>Tyon | Serialization UI (Testnet)</title>
+  <title>Tyon | Testnet</title>
   <link rel="stylesheet" href="Test_style.css">
+
   <!-- PDF.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>
@@ -14,32 +15,32 @@
   </script>
 </head>
 <body>
-  <!-- TESTNET Banner -->
-  <div id="testnetBanner" style="background:red; color:white; text-align:center; padding:0.5rem; font-weight:bold;">
-    TESTNET MODE — Sandbox Environment
-  </div>
 
-  <!-- Professional Header -->
+  <!-- Testnet Banner -->
+  <div id="testnetBanner">TESTNET MODE — Sandbox Environment</div>
+
+  <!-- Header -->
   <header id="header">
     <img src="logo.png" alt="Tyon Logo" id="logo">
-    <h1>Tyon Serialization</h1>
+    <h1>Tyon Serialization (Testnet)</h1>
   </header>
 
+  <!-- Main App -->
   <div id="tyonApp" class="fade-in" role="main">
-    
+
     <!-- STEP 1: Identity Layer -->
     <section id="identityScreen" class="screen active" aria-labelledby="identityHeader">
       <h2 id="identityHeader" class="header-glow">Identify Yourself</h2>
       <form id="identityForm">
         <div class="input-group">
           <label for="userName">Name</label>
-          <input type="text" id="userName" placeholder="Enter your full name" required aria-required="true">
+          <input type="text" id="userName" placeholder="Enter your full name" required>
         </div>
         <div class="input-group">
           <label for="companyName">Company</label>
-          <input type="text" id="companyName" placeholder="Enter company name" required aria-required="true">
+          <input type="text" id="companyName" placeholder="Enter company name" required>
         </div>
-        <button id="proceedBtn" type="submit" disabled aria-disabled="true" aria-label="Proceed to upload after entering name and company">Proceed</button>
+        <button id="proceedBtn" type="submit" disabled>Proceed</button>
       </form>
     </section>
 
@@ -47,32 +48,24 @@
     <section id="uploadScreen" class="screen hidden" aria-labelledby="uploadHeader">
       <h2 id="uploadHeader" class="header-glow">Upload Your Document</h2>
 
-      <!-- Upload Mode Toggle -->
       <div class="upload-toggle">
         <button id="singleBtn" class="active" aria-pressed="true">Single Upload</button>
         <button id="bulkBtn" aria-pressed="false">Bulk Upload</button>
       </div>
 
       <!-- Single Upload -->
-      <form id="singleForm" class="upload-form" aria-labelledby="uploadHeader">
+      <form id="singleForm" class="upload-form">
         <fieldset>
           <legend>PDF Selection</legend>
-          <input type="file" id="pdfFile" accept="application/pdf" required aria-required="true">
-          <input type="text" id="filename" readonly placeholder="Filename will appear here" aria-label="Selected file name">
-          <input type="number" id="pageCount" readonly placeholder="Page count" aria-label="PDF page count">
+          <input type="file" id="pdfFile" accept="application/pdf">
+          <input type="text" id="filename" readonly placeholder="Filename will appear here">
+          <input type="number" id="pageCount" readonly placeholder="Page count">
         </fieldset>
 
         <fieldset>
           <legend>Metadata</legend>
-          <label for="stage">Stage:</label>
-          <select id="stage" aria-label="Document stage">
-            <option>Draft</option>
-            <option>Review</option>
-            <option>Final</option>
-            <option>Archived</option>
-          </select>
           <label for="memo">Memo:</label>
-          <input type="text" id="memo" placeholder="Enter a brief memo" aria-label="Document memo">
+          <input type="text" id="memo" placeholder="Enter a brief memo">
         </fieldset>
 
         <div class="button-group">
@@ -86,33 +79,19 @@
         <button type="submit" id="submitBtn">Submit</button>
       </form>
 
-      <!-- Bulk Upload -->
-      <form id="bulkForm" class="upload-form hidden" aria-labelledby="uploadHeader">
-        <fieldset>
-          <legend>Bulk CSV Upload</legend>
-          <input type="file" id="csvFile" accept=".csv" aria-label="Upload CSV file for bulk processing">
-          <button type="button" id="bulkSubmitBtn">Submit CSV</button>
-        </fieldset>
-      </form>
-
-      <!-- Timer & Confirm -->
-      <div id="timerBox" class="hidden" aria-live="assertive">
-        <p id="countdown" class="warning">Confirm in 10...</p>
-        <button id="confirmBtn" class="btn-confirm">Confirm Now</button>
-      </div>
-
-      <!-- Results Box -->
-      <div id="resultsBox" class="hidden" aria-live="polite">
+      <!-- Results -->
+      <div id="resultsBox" class="hidden">
         <h3>Document Metadata</h3>
         <p><strong>Filename:</strong> <span id="tyonId"></span></p>
         <p><strong>Pages:</strong> <span id="timestamp"></span></p>
-        <p><a id="hashscanLink" href="#" target="_blank">View on HashScan</a></p>
-        <p><a id="stampedPdfLink" href="#" download>Download Stamped PDF</a></p>
-        <p class="warning">This is permanent. Metadata captured.</p>
+        <p><a id="hashscanLink" target="_blank">View on HashScan</a></p>
+        <p><a id="stampedPdfLink" download>Download Stamped PDF</a></p>
       </div>
     </section>
 
   </div>
+
+  <!-- App Logic -->
   <script src="Test_app.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ const proceedBtn = document.getElementById("proceedBtn");
 identityForm.addEventListener("input", () => {
   const name = document.getElementById("userName").value.trim();
   const company = document.getElementById("companyName").value.trim();
-  proceedBtn.disabled = !(name && company);
+  proceedBtn.disabled = !(name && company); // enabled only if both filled
 });
 
 identityForm.addEventListener("submit", (e) => {
@@ -35,7 +35,7 @@ pdfInput.addEventListener("change", async () => {
   // Set filename
   document.getElementById("filename").value = file.name;
 
-  // Default page count placeholder
+  // Page count placeholder
   const pageCountField = document.getElementById("pageCount");
   pageCountField.value = "Detecting...";
 
@@ -43,12 +43,6 @@ pdfInput.addEventListener("change", async () => {
     const buffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
     pageCountField.value = pdf.numPages;
-
-    // Enable buttons once PDF is loaded
-    ["encryptBtn","decryptBtn","obfuscateBtn","maskBtn","copyBtn"].forEach(id=>{
-      const btn = document.getElementById(id);
-      if(btn) btn.disabled = false;
-    });
   } catch (err) {
     console.error("PDF.js error:", err);
     pageCountField.value = "N/A";
@@ -56,23 +50,7 @@ pdfInput.addEventListener("change", async () => {
 });
 
 // ========================
-// Action Buttons (Testnet Demo)
-// ========================
-function demoAction(name){
-  alert(`${name} action executed (Testnet demo).`);
-}
-
-document.getElementById("encryptBtn").addEventListener("click", ()=>demoAction("Encrypt"));
-document.getElementById("decryptBtn").addEventListener("click", ()=>demoAction("Decrypt"));
-document.getElementById("obfuscateBtn").addEventListener("click", ()=>demoAction("Obfuscate"));
-document.getElementById("maskBtn").addEventListener("click", ()=>demoAction("Mask"));
-document.getElementById("copyBtn").addEventListener("click", ()=>{
-  const filename = document.getElementById("filename").value;
-  navigator.clipboard.writeText(filename).then(()=>alert("Filename copied!"));
-});
-
-// ========================
-// SUBMIT + SHOW RESULTS
+// STEP 3 — SUBMIT & SHOW RESULTS
 // ========================
 document.getElementById("submitBtn").addEventListener("click", (e) => {
   e.preventDefault();
@@ -91,17 +69,16 @@ document.getElementById("submitBtn").addEventListener("click", (e) => {
     network: NETWORK
   };
 
-  // Encode as demo output
+  // Encode as demo output (sandbox)
   const encoded = btoa(JSON.stringify(payload));
   const blob = new Blob([encoded], { type: "text/plain" });
 
+  // Show results
   document.getElementById("resultsBox").classList.remove("hidden");
   document.getElementById("tyonId").textContent = filename;
   document.getElementById("timestamp").textContent = pages;
 
   document.getElementById("hashscanLink").href =
     `https://hashscan.io/testnet/topic/${TOPIC_ID}`;
-
-  document.getElementById("stampedPdfLink").href =
-    URL.createObjectURL(blob);
+  document.getElementById("stampedPdfLink").href = URL.createObjectURL(blob);
 });
