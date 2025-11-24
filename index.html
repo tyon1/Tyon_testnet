@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tyon Serialization: Immutable document metadata capture">
-  <title>Tyon | Testnet</title>
+  <meta name="description" content="Tyon Serialization: Sandbox Testnet Demo">
+  <title>Tyon | Testnet Sandbox</title>
   <link rel="stylesheet" href="Test_style.css">
 
   <!-- PDF.js -->
@@ -28,9 +28,9 @@
   <!-- Main App -->
   <div id="tyonApp" class="fade-in" role="main">
 
-    <!-- STEP 1: Identity Layer -->
-    <section id="identityScreen" class="screen active" aria-labelledby="identityHeader">
-      <h2 id="identityHeader" class="header-glow">Identify Yourself</h2>
+    <!-- STEP 1: Identity -->
+    <section id="identityScreen" class="screen active">
+      <h2 class="header-glow">Identify Yourself</h2>
       <form id="identityForm">
         <div class="input-group">
           <label for="userName">Name</label>
@@ -44,10 +44,11 @@
       </form>
     </section>
 
-    <!-- STEP 2: Upload Layer -->
-    <section id="uploadScreen" class="screen hidden" aria-labelledby="uploadHeader">
-      <h2 id="uploadHeader" class="header-glow">Upload Your Document</h2>
+    <!-- STEP 2: Upload -->
+    <section id="uploadScreen" class="screen hidden">
+      <h2 class="header-glow">Upload Your Document</h2>
 
+      <!-- Upload Toggle -->
       <div class="upload-toggle">
         <button id="singleBtn" class="active" aria-pressed="true">Single Upload</button>
         <button id="bulkBtn" aria-pressed="false">Bulk Upload</button>
@@ -79,6 +80,15 @@
         <button type="submit" id="submitBtn">Submit</button>
       </form>
 
+      <!-- Bulk Upload (optional) -->
+      <form id="bulkForm" class="upload-form hidden">
+        <fieldset>
+          <legend>Bulk CSV Upload</legend>
+          <input type="file" id="csvFile" accept=".csv">
+          <button type="button" id="bulkSubmitBtn">Submit CSV</button>
+        </fieldset>
+      </form>
+
       <!-- Results -->
       <div id="resultsBox" class="hidden">
         <h3>Document Metadata</h3>
@@ -91,7 +101,8 @@
 
   </div>
 
-  <!-- App Logic -->
+  <!-- Sandbox Logic -->
   <script src="Test_script.js"></script>
 </body>
 </html>
+
