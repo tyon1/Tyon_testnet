@@ -1,72 +1,165 @@
-/* Base Styles */
-/* Base Styles */
+/* ======================
+   Base Styles
+   ====================== */
 body {
   margin: 0;
   font-family: 'Share Tech Mono', monospace;
-  background-color: #eef2ff;
-  color: #222;
+  background-color: #f5f5f5;
+  color: #333;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
 }
 
-/* Testnet Banner */
+/* ======================
+   Testnet Banner
+   ====================== */
 #testnetBanner {
   width: 100%;
-  background-color: #ffebcc;
-  color: #b25f00;
+  background-color: #ffecb3; /* Soft yellow for sandbox */
+  color: #8b6d1f;
   text-align: center;
   font-weight: bold;
   padding: 8px 0;
+  border-bottom: 2px solid #f0c000;
 }
 
-/* Header */
+/* ======================
+   Header
+   ====================== */
 header {
   width: 100%;
-  background-color: #dceaff;
+  background-color: #dcdcdc;
   display: flex;
   align-items: center;
   padding: 10px 20px;
   gap: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-header h1 { margin: 0; font-size: 1.5rem; color: #222; }
-#logo { height: 40px; }
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #222;
+}
+#logo {
+  height: 40px;
+}
 
-/* Screens */
-.screen { display: none; padding: 20px; width: 100%; max-width: 400px; }
-.screen.active { display: block; }
+/* ======================
+   Screens
+   ====================== */
+.screen {
+  display: none;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.screen.active {
+  display: block;
+}
 
-.header-glow { font-size: 1.6rem; color: #222; margin-bottom: 15px; text-align: center; }
+.header-glow {
+  font-size: 1.6rem;
+  color: #222;
+  margin-bottom: 15px;
+  text-align: center;
+}
 
-.input-group { margin-bottom: 15px; }
+.input-group {
+  margin-bottom: 15px;
+}
 input, select {
-  width: 100%; padding: 10px;
-  border-radius: 4px; border: 1px solid #aaa;
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
   margin-top: 5px;
 }
 
-/* Buttons */
+/* ======================
+   Buttons
+   ====================== */
 button {
-  padding: 10px 15px; border-radius: 4px; cursor: pointer;
-  border: 1px solid #555; background-color: #ddeeff; color: #222;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #555;
+  background-color: #eee;
+  color: #222;
+  transition: background 0.2s ease;
 }
-button:disabled { background-color: #ccc; border-color: #999; cursor: not-allowed; }
-button:hover:not(:disabled) { background-color: #c0dcff; }
+button:disabled {
+  background-color: #ccc;
+  border-color: #999;
+  cursor: not-allowed;
+}
+button:hover:not(:disabled) {
+  background-color: #ddd;
+}
 
-/* Upload Toggle */
-.upload-toggle { text-align: center; margin-bottom: 20px; }
-.upload-toggle button { margin: 0 5px; }
-.upload-toggle button.active { background-color: #b0cfff; font-weight: bold; }
+/* ======================
+   Upload Toggle
+   ====================== */
+.upload-toggle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.upload-toggle button {
+  margin: 0 5px;
+}
+.upload-toggle button.active {
+  background-color: #bbb;
+  font-weight: bold;
+}
 
-/* Button Group Actions */
-.button-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
-.btn-action { flex: 1; }
+/* ======================
+   Button Group Actions
+   ====================== */
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.btn-action {
+  flex: 1;
+}
 
-/* Timer & Results */
+/* ======================
+   Timer & Results
+   ====================== */
 #timerBox, #resultsBox {
-  margin-top: 15px; padding: 15px; border-radius: 6px;
-  background-color: #f0f8ff; border: 1px solid #ccc;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
 }
-.warning { color: #b22222; font-weight: bold; }
+.warning {
+  color: #b22222;
+  font-weight: bold;
+}
+
+/* ======================
+   Testnet Visual Cues
+   ====================== */
+body.testnet {
+  border-top: 5px solid #f0c000; /* subtle visual cue */
+}
+
+#samplePDF {
+  margin-top: 20px;
+  border: 2px dashed #f0c000;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff8e1;
+}
+
+#samplePDF h3 {
+  color: #8b6d1f;
+  margin-top: 0;
+}

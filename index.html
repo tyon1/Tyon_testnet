@@ -1,109 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tyon Serialization: Sandbox Testnet Demo">
-  <title>Tyon | Testnet Sandbox</title>
-  <link rel="stylesheet" href="Test_style.css">
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tyon Testnet: Sandbox environment for document serialization demo">
+<title>Tyon | Testnet Stage 4</title>
+<link rel="stylesheet" href="Test_style.css">
 
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-  <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-  </script>
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+</script>
 </head>
 <body>
 
-  <!-- Testnet Banner -->
-  <div id="testnetBanner">TESTNET MODE — Sandbox Environment</div>
+<!-- Testnet Banner -->
+<div id="testnetBanner">TESTNET MODE — Sandbox Environment</div>
 
-  <!-- Header -->
-  <header id="header">
-    <img src="logo.png" alt="Tyon Logo" id="logo">
-    <h1>Tyon Serialization (Testnet)</h1>
-  </header>
+<!-- Header -->
+<header id="header">
+  <img src="logo.png" alt="Tyon Logo" id="logo">
+  <h1>Tyon Serialization (Testnet)</h1>
+</header>
 
-  <!-- Main App -->
-  <div id="tyonApp" class="fade-in" role="main">
+<div id="tyonApp" role="main">
 
-    <!-- STEP 1: Identity -->
-    <section id="identityScreen" class="screen active">
-      <h2 class="header-glow">Identify Yourself</h2>
-      <form id="identityForm">
-        <div class="input-group">
-          <label for="userName">Name</label>
-          <input type="text" id="userName" placeholder="Enter your full name" required>
-        </div>
-        <div class="input-group">
-          <label for="companyName">Company</label>
-          <input type="text" id="companyName" placeholder="Enter company name" required>
-        </div>
-        <button id="proceedBtn" type="submit" disabled>Proceed</button>
-      </form>
-    </section>
+  <!-- STEP 1: Identity -->
+  <section id="identityScreen" class="screen active" aria-labelledby="identityHeader">
+    <h2 id="identityHeader" class="header-glow">Identify Yourself</h2>
+    <form id="identityForm">
+      <div class="input-group">
+        <label for="userName">Name</label>
+        <input type="text" id="userName" placeholder="Enter your full name" required>
+      </div>
+      <div class="input-group">
+        <label for="companyName">Company</label>
+        <input type="text" id="companyName" placeholder="Enter company name" required>
+      </div>
+      <button id="proceedBtn" type="submit" disabled aria-disabled="true">Proceed</button>
+    </form>
+  </section>
 
-    <!-- STEP 2: Upload -->
-    <section id="uploadScreen" class="screen hidden">
-      <h2 class="header-glow">Upload Your Document</h2>
+  <!-- STEP 2: Upload -->
+  <section id="uploadScreen" class="screen hidden" aria-labelledby="uploadHeader">
+    <h2 id="uploadHeader" class="header-glow">Upload Your Document</h2>
 
-      <!-- Upload Toggle -->
-      <div class="upload-toggle">
-        <button id="singleBtn" class="active" aria-pressed="true">Single Upload</button>
-        <button id="bulkBtn" aria-pressed="false">Bulk Upload</button>
+    <!-- Upload toggle -->
+    <div class="upload-toggle">
+      <button id="singleBtn" class="active" aria-pressed="true">Single Upload</button>
+      <button id="bulkBtn" aria-pressed="false">Bulk Upload</button>
+      <button id="sampleBtn">Use Sample Document</button>
+    </div>
+
+    <!-- Single PDF Form -->
+    <form id="singleForm" class="upload-form">
+      <fieldset>
+        <legend>PDF Selection</legend>
+        <input type="file" id="pdfFile" accept="application/pdf">
+        <input type="text" id="filename" readonly placeholder="Filename will appear here">
+        <input type="number" id="pageCount" readonly placeholder="Page count">
+      </fieldset>
+
+      <fieldset>
+        <legend>Metadata</legend>
+        <label for="memo">Memo:</label>
+        <input type="text" id="memo" placeholder="Enter a brief memo">
+      </fieldset>
+
+      <div class="button-group">
+        <button type="button" id="encryptBtn" class="btn-action" disabled>Encrypt</button>
+        <button type="button" id="decryptBtn" class="btn-action" disabled>Decrypt</button>
+        <button type="button" id="obfuscateBtn" class="btn-action" disabled>Obfuscate</button>
+        <button type="button" id="maskBtn" class="btn-action" disabled>Mask</button>
+        <button type="button" id="copyBtn" class="btn-action" disabled>Copy</button>
       </div>
 
-      <!-- Single Upload -->
-      <form id="singleForm" class="upload-form">
-        <fieldset>
-          <legend>PDF Selection</legend>
-          <input type="file" id="pdfFile" accept="application/pdf">
-          <input type="text" id="filename" readonly placeholder="Filename will appear here">
-          <input type="number" id="pageCount" readonly placeholder="Page count">
-        </fieldset>
+      <button type="submit" id="submitBtn">Submit</button>
+    </form>
 
-        <fieldset>
-          <legend>Metadata</legend>
-          <label for="memo">Memo:</label>
-          <input type="text" id="memo" placeholder="Enter a brief memo">
-        </fieldset>
+    <!-- Bulk Form -->
+    <form id="bulkForm" class="upload-form hidden">
+      <fieldset>
+        <legend>Bulk CSV Upload</legend>
+        <input type="file" id="csvFile" accept=".csv">
+        <button type="button" id="bulkSubmitBtn">Submit CSV</button>
+      </fieldset>
+    </form>
 
-        <div class="button-group">
-          <button type="button" id="encryptBtn" class="btn-action" disabled>Encrypt</button>
-          <button type="button" id="decryptBtn" class="btn-action" disabled>Decrypt</button>
-          <button type="button" id="obfuscateBtn" class="btn-action" disabled>Obfuscate</button>
-          <button type="button" id="maskBtn" class="btn-action" disabled>Mask</button>
-          <button type="button" id="copyBtn" class="btn-action" disabled>Copy</button>
-        </div>
+    <!-- Sample PDF viewer -->
+    <div id="samplePDF" class="hidden">
+      <h3>Sample Contract (Demo)</h3>
+      <iframe src="sample_contract.pdf" width="100%" height="400px"></iframe>
+    </div>
 
-        <button type="submit" id="submitBtn">Submit</button>
-      </form>
+    <!-- Results -->
+    <div id="resultsBox" class="hidden">
+      <h3>Document Metadata</h3>
+      <p><strong>Filename:</strong> <span id="tyonId"></span></p>
+      <p><strong>Pages:</strong> <span id="timestamp"></span></p>
+      <p><a id="hashscanLink" target="_blank">View on HashScan</a></p>
+      <p><a id="stampedPdfLink" download>Download Stamped PDF</a></p>
+      <p class="warning">This is sandbox-only. Metadata is not permanent.</p>
+    </div>
 
-      <!-- Bulk Upload (optional) -->
-      <form id="bulkForm" class="upload-form hidden">
-        <fieldset>
-          <legend>Bulk CSV Upload</legend>
-          <input type="file" id="csvFile" accept=".csv">
-          <button type="button" id="bulkSubmitBtn">Submit CSV</button>
-        </fieldset>
-      </form>
+  </section>
 
-      <!-- Results -->
-      <div id="resultsBox" class="hidden">
-        <h3>Document Metadata</h3>
-        <p><strong>Filename:</strong> <span id="tyonId"></span></p>
-        <p><strong>Pages:</strong> <span id="timestamp"></span></p>
-        <p><a id="hashscanLink" target="_blank">View on HashScan</a></p>
-        <p><a id="stampedPdfLink" download>Download Stamped PDF</a></p>
-      </div>
-    </section>
+</div>
 
-  </div>
+<script src="Test_script.js"></script>
 
-  <!-- Sandbox Logic -->
-  <script src="Test_script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const elements = {
+    userName: document.getElementById("userName"),
+    companyName: document.getElementById("companyName"),
+    proceedBtn: document.getElementById("proceedBtn"),
+    identityScreen: document.getElementById("identityScreen"),
+    uploadScreen: document.getElementById("uploadScreen"),
+    singleBtn: document.getElementById("singleBtn"),
+    bulkBtn: document.getElementById("bulkBtn"),
+    sampleBtn: document.getElementById("sampleBtn"),
+    singleForm: document.getElementById("singleForm"),
+    bulkForm: document.getElementById("bulkForm"),
+    pdfFile: document.getElementById("pdfFile"),
+    filename: document.getElementById("filename"),
+    pageCount: document.getElementById("pageCount"),
+    memo: document.getElementById("memo"),
+    submitBtn: document.getElementById("submitBtn"),
+    resultsBox: document.getElementById("resultsBox"),
+    tyonId: document.getElementById("tyonId"),
+    timestamp: document.getElementById("timestamp"),
+    hashscanLink: document.getElementById("hashscanLink"),
+    stampedPdfLink: document.getElementById("stampedPdfLink"),
+    samplePDF: document.getElementById("samplePDF"),
+    encrypt: document.getElementById("encryptBtn"),
+    decrypt: document.getElementById("decryptBtn"),
+    obfuscate: document.getElementById("obfuscateBtn"),
+    mask: document.getElementById("maskBtn"),
+    copy: document.getElementById("copyBtn")
+  };
+
+  // ✅ Enable Proceed Button
+  function validateInputs() {
+    const valid = elements.userName.value.trim() && elements.companyName.value.trim();
+    elements.proceedBtn.disabled = !valid;
+    elements.proceedBtn.setAttribute("aria-disabled", !valid);
+  }
+  elements.userName.addEventListener("input", validateInputs);
+  elements.companyName.addEventListener("input", validateInputs);
+
+  elements.proceedBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    elements.identityScreen.classList.add("hidden");
+    elements.uploadScreen.classList.add("active");
+  });
+
+  // ✅ Upload toggle
+  elements.singleBtn.addEventListener("click", () => {
+    elements.singleForm.classList.remove("hidden");
+    elements.bulkForm.classList.add("hidden");
+    elements.samplePDF.classList.add("hidden");
+    elements.singleBtn.classList.add("active");
+    elements.bulkBtn.classList.remove("active");
+  });
+  elements.bulkBtn.addEventListener("click", () => {
+    elements.bulkForm.classList.remove("hidden");
+    elements.singleForm.classList.add("hidden");
+    elements.samplePDF.classList.add("hidden");
+    elements.bulkBtn.classList.add("active");
+    elements.singleBtn.classList.remove("active");
+  });
+  elements.sampleBtn.addEventListener("click", () => {
+    elements.singleForm.classList.add("hidden");
+    elements.bulkForm.classList.add("hidden");
+    elements.samplePDF.classList.remove("hidden");
+  });
+
+  // ✅ Single PDF handler
+  elements.pdfFile.addEventListener("change", async () => {
+    const file = elements.pdfFile.files[0];
+    if (!file) return;
+    elements.filename.value = file.name;
+    const buffer = await file.arrayBuffer();
+    try {
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+      elements.pageCount.value = pdf.numPages;
+    } catch {
+      elements.pageCount.value = "N/A";
+    }
+    [elements.encrypt, elements.decrypt, elements.obfuscate, elements.mask, elements.copy].forEach(btn => btn.disabled = false);
+  });
+
+  // ✅ Submit Sandbox Metadata
+  elements.singleForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const filename = elements.filename.value || "sample_contract.pdf";
+    const pages = elements.pageCount.value || 5;
+    const memo = elements.memo.value || "Demo memo";
+
+    const payload = {
+      operator: "0.0.5073987",
+      topic: "0.0.6607223",
+      filename,
+      pages,
+      memo,
+      ts: Date.now(),
+      network: "testnet",
+      syntheticSigners: ["Alice", "Bob", "Charlie"],
+      chainOfCustody: ["Upload → Encrypt → Stamped"]
+    };
+
+    const encoded = btoa(JSON.stringify(payload));
+    const blob = new Blob([encoded], { type: "text/plain" });
+
+    elements.resultsBox.classList.remove("hidden");
+    elements.tyonId.textContent = filename;
+    elements.timestamp.textContent = pages;
+    elements.hashscanLink.href = "https://hashscan.io/testnet/topic/0.0.6607223";
+    elements.stampedPdfLink.href = URL.createObjectURL(blob);
+  });
+
+});
+</script>
+
 </body>
 </html>
-
