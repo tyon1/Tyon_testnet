@@ -1,50 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ========================
+  // CONFIG (TESTNET)
+  // ========================
+  const OPERATOR_ID = "0.0.5073987";
+  const TOPIC_ID = "0.0.6607223";
+  const NETWORK = "testnet";
+
+  // Elements
   const identityForm = document.getElementById("identityForm");
   const proceedBtn = document.getElementById("proceedBtn");
 
-  // ✅ Enable Proceed Button
-  function validateInputs() {
+  const pdfInput = document.getElementById("pdfFile");
+  const filenameField = document.getElementById("filename");
+  const pageCountField = document.getElementById("pageCount");
+  const memoField = document.getElementById("memo");
+
+  const resultsBox = document.getElementById("resultsBox");
+  const tyonIdField = document.getElementById("tyonId");
+  const timestampField = document.getElementById("timestamp");
+  const hashscanLink = document.getElementById("hashscanLink");
+  const stampedPdfLink = document.getElementById("stampedPdfLink");
+
+  // ========================
+  // 1. Enable Proceed Button
+  // ========================
+  identityForm.addEventListener("input", () => {
     const name = document.getElementById("userName").value.trim();
     const company = document.getElementById("companyName").value.trim();
     proceedBtn.disabled = !(name && company);
-  }
-  document.getElementById("userName").addEventListener("input", validateInputs);
-  document.getElementById("companyName").addEventListener("input", validateInputs);
+  });
 
-  // ✅ Proceed to Upload
   identityForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    document.getElementById("identityScreen").classList.remove("active");
     document.getElementById("identityScreen").classList.add("hidden");
-    document.getElementById("uploadScreen").classList.add("active");
+    document.getElementById("uploadScreen").classList.remove("hidden");
   });
 
-  // ✅ Upload Toggle
-  const singleBtn = document.getElementById("singleBtn");
-  const bulkBtn = document.getElementById("bulkBtn");
-  const singleForm = document.getElementById("singleForm");
-  const bulkForm = document.getElementById("bulkForm");
-
-  singleBtn.addEventListener("click", () => {
-    singleForm.classList.remove("hidden");
-    bulkForm.classList.add("hidden");
-    singleBtn.classList.add("active");
-    bulkBtn.classList.remove("active");
-  });
-  bulkBtn.addEventListener("click", () => {
-    bulkForm.classList.remove("hidden");
-    singleForm.classList.add("hidden");
-    bulkBtn.classList.add("active");
-    singleBtn.classList.remove("active");
-  });
-
-  // ✅ Single PDF Handling
-  const pdfInput = document.getElementById("pdfFile");
+  // ========================
+  // 2. Parse PDF & detect page count
+  // ========================
   pdfInput.addEventListener("change", async () => {
     const file = pdfInput.files[0];
     if (!file) return;
-    document.getElementById("filename").value = file.name;
-    const pageCountField = document.getElementById("pageCount");
+
+    filenameField.value = file.name;
     pageCountField.value = "Detecting...";
 
     try {
@@ -55,31 +55,79 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(err);
       pageCountField.value = "N/A";
     }
-
-    // Enable action buttons
-    ["encryptBtn","decryptBtn","obfuscateBtn","maskBtn","copyBtn"].forEach(id => {
-      document.getElementById(id).disabled = false;
-    });
   });
 
-  // ✅ Submit Sandbox Metadata
-  document.getElementById("singleForm").addEventListener("submit", (e) => {
+  // ========================
+  // 3. Stamp PDF (Option B)
+  // ========================
+  async function createStampedPDF(file, payload) {
+    const arrayBuf = await file.arrayBuffer();
+    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuf);
+
+    const pages = pdfDoc.getPages();
+    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+    const stamp = `
+TYON TESTNET — SIMULATED SERIALIZATION ONLY
+Filename: ${payload.filename}
+Pages: ${payload.pages}
+Timestamp: ${payload.ts}
+Memo: ${payload.memo}
+Operator: ${payload.operator}
+Topic: ${payload.topic}
+Network: ${payload.network}
+(Not a legally binding serialization)
+    `.trim();
+
+    pages.forEach((page) => {
+      page.drawText(stamp, {
+        x: 40,
+        y: page.getHeight() - 120,
+        size: 10,
+        font,
+        color: PDFLib.rgb(0.8, 0, 0),
+      });
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    return new Blob([pdfBytes], { type: "application/pdf" });
+  }
+
+  // ========================
+  // 4. Submit Metadata (Fake Testnet Serialization)
+  // ========================
+  document.getElementById("submitBtn").addEventListener("click", async (e) => {
     e.preventDefault();
-    const filename = document.getElementById("filename").value;
-    const pages = document.getElementById("pageCount").value;
-    const memo = document.getElementById("memo").value;
 
-    const payload = { filename, pages, memo, network:"sandbox" };
+    const file = pdfInput.files[0];
+    if (!file) return;
+
+    const payload = {
+      operator: OPERATOR_ID,
+      topic: TOPIC_ID,
+      filename: filenameField.value,
+      pages: pageCountField.value,
+      memo: memoField.value,
+      ts: Date.now(),
+      network: NETWORK
+    };
+
+    // Encode payload (fake Hedera message)
     const encoded = btoa(JSON.stringify(payload));
-    const blob = new Blob([encoded], { type: "text/plain" });
 
-    // Show results
-    const resultsBox = document.getElementById("resultsBox");
+    // Create a stamped PDF
+    const stampedBlob = await createStampedPDF(file, payload);
+
+    // Generate download URL
+    const stampedUrl = URL.createObjectURL(stampedBlob);
+
+    // Display results
     resultsBox.classList.remove("hidden");
-    document.getElementById("tyonId").textContent = filename;
-    document.getElementById("timestamp").textContent = pages;
-    document.getElementById("hashscanLink").href = "#sandbox";
-    document.getElementById("stampedPdfLink").href = URL.createObjectURL(blob);
+    tyonIdField.textContent = payload.filename;
+    timestampField.textContent = payload.pages;
+    hashscanLink.href = `https://hashscan.io/testnet/topic/${TOPIC_ID}`;
+    stampedPdfLink.href = stampedUrl;
+    stampedPdfLink.download = `TYON_TESTNET_${payload.filename}`;
   });
 
 });
