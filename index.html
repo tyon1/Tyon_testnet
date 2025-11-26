@@ -1,182 +1,151 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tyon Testnet Sandbox: Demo Serialization UI">
-  <title>Tyon | Testnet Sandbox</title>
-  <link rel="stylesheet" href="Test_style.css">
+  <title>Tyon Testnet Demo</title>
+
+  <!-- Correct updated stylesheet -->
+  <link rel="stylesheet" href="css/tyon_testnet.css">
 
   <!-- PDF.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-  <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-  </script>
 </head>
+
 <body>
-
-  <!-- Sandbox Banner -->
-  <div id="testnetBanner">TESTNET MODE — Sandbox Environment</div>
-
-  <!-- Header -->
-  <header id="header">
-    <img src="logo.png" alt="Tyon Logo" id="logo">
-    <h1>Tyon Serialization (Testnet)</h1>
+  <header>
+    <img src="assets/logo.png" alt="Tyon Logo" class="logo">
+    <h1>Tyon Alpha Protocol – Testnet Simulation</h1>
   </header>
 
-  <!-- Main App -->
-  <div id="tyonApp" class="fade-in" role="main">
+  <!-- Identity Screen -->
+  <section id="identityScreen">
+    <h2>Identify Yourself</h2>
+    <form id="identityForm">
+      <div class="input-group">
+        <label for="userName">Name</label>
+        <input type="text" id="userName" placeholder="Enter your full name" required>
+      </div>
+      <div class="input-group">
+        <label for="companyName">Company</label>
+        <input type="text" id="companyName" placeholder="Enter company name" required>
+      </div>
+      <button id="proceedBtn" type="submit" disabled>Proceed</button>
+    </form>
+  </section>
 
-    <!-- STEP 1: Identity -->
-    <section id="identityScreen" class="screen active" aria-labelledby="identityHeader">
-      <h2 id="identityHeader" class="header-glow">Identify Yourself</h2>
-      <form id="identityForm">
-        <div class="input-group">
-          <label for="userName">Name</label>
-          <input type="text" id="userName" placeholder="Enter your full name" required>
-        </div>
-        <div class="input-group">
-          <label for="companyName">Company</label>
-          <input type="text" id="companyName" placeholder="Enter company name" required>
-        </div>
-        <button id="proceedBtn" type="submit" disabled>Proceed</button>
-      </form>
-    </section>
+  <!-- Upload Screen -->
+  <section id="uploadScreen" class="hidden">
+    <h2>Upload Your Document</h2>
 
-    <!-- STEP 2: Upload -->
-    <section id="uploadScreen" class="screen hidden" aria-labelledby="uploadHeader">
-      <h2 id="uploadHeader" class="header-glow">Upload Your Document</h2>
+    <div class="upload-tabs">
+      <button class="tab active" id="singleTab">Single Upload</button>
+      <button class="tab" id="bulkTab">Bulk Upload</button>
+    </div>
 
-      <div class="upload-toggle">
-        <button id="singleBtn" class="active" aria-pressed="true">Single Upload</button>
-        <button id="bulkBtn" aria-pressed="false">Bulk Upload</button>
+    <!-- SINGLE UPLOAD -->
+    <div id="singleUpload">
+      <h3>Document Selection</h3>
+
+      <div class="file-row">
+        <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg">
+        <select id="sampleSelector"></select>
       </div>
 
-      <!-- Single Upload -->
-      <form id="singleForm" class="upload-form">
-        <fieldset>
-          <legend>Document Selection</legend>
-          <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg">
-          <input type="text" id="filename" readonly placeholder="Filename will appear here">
-          <input type="number" id="pageCount" readonly placeholder="Page count (PDF) / 1 (JPG)">
-        </fieldset>
-
-        <fieldset>
-          <legend>Metadata</legend>
-          <label for="memo">Memo:</label>
-          <input type="text" id="memo" placeholder="Enter a brief memo">
-        </fieldset>
-
-        <div class="button-group">
-          <button type="button" id="encryptBtn" class="btn-action" disabled>Encrypt</button>
-          <button type="button" id="decryptBtn" class="btn-action" disabled>Decrypt</button>
-          <button type="button" id="obfuscateBtn" class="btn-action" disabled>Obfuscate</button>
-          <button type="button" id="maskBtn" class="btn-action" disabled>Mask</button>
-          <button type="button" id="copyBtn" class="btn-action" disabled>Copy</button>
-        </div>
-
-        <button type="submit" id="submitBtn">Submit</button>
-      </form>
-
-      <!-- Bulk Upload -->
-      <form id="bulkForm" class="upload-form hidden">
-        <fieldset>
-          <legend>Bulk CSV Upload</legend>
-          <input type="file" id="csvFile" accept=".csv">
-          <button type="button" id="bulkSubmitBtn">Submit CSV</button>
-        </fieldset>
-      </form>
-
-      <!-- Timer & Results -->
-      <div id="timerBox" class="hidden">
-        <p id="countdown" class="warning">Confirm in 10...</p>
-        <button id="confirmBtn" class="btn-confirm">Confirm Now</button>
+      <div class="input-group">
+        <label for="filename">Filename</label>
+        <input type="text" id="filename" placeholder="Auto-filled">
       </div>
 
-      <div id="resultsBox" class="hidden">
-        <h3>Document Metadata</h3>
-        <p><strong>Filename:</strong> <span id="tyonId"></span></p>
-        <p><strong>Pages:</strong> <span id="timestamp"></span></p>
-        <p><a id="hashscanLink" target="_blank">View on HashScan</a></p>
-        <p><a id="stampedPdfLink" download>Download Stamped PDF</a></p>
+      <div class="input-group">
+        <label for="pageCount">Pages</label>
+        <input type="text" id="pageCount" disabled>
       </div>
 
-      <!-- Sidebar: Identified Document Types -->
-      <aside id="docTypesSidebar">
-        <h4>Identified Document Types</h4>
-        <pre>
-A. Legal & Business Documents
-- Contract
-- Employment Contract
-- Service Agreement
-- Lease Agreement
-- Non-Disclosure Agreement
-- Memorandum of Understanding
-- Power of Attorney
-- Partnership Agreement
-- IP Assignment Agreement
-- Purchase Agreement
+      <div class="input-group">
+        <label for="memo">Memo</label>
+        <textarea id="memo" placeholder="Optional memo"></textarea>
+      </div>
 
-B. Certificates of Verification / Authenticity
-- Certificate of Authenticity
-- Certificate of Product Creation
-- Certificate of Compliance
-- Certificate of Destruction
-- Certificate of Warranty
-- Certificate of Manufacturing
-- Certificate of Calibration
-- Certificate of Inspection
-- Certificate of Safety
-- Certificate of Sustainability
+      <div class="action-row">
+        <button id="encryptBtn">Encrypt</button>
+        <button id="decryptBtn">Decrypt</button>
+        <button id="obfuscateBtn">Obfuscate</button>
+        <button id="maskBtn">Mask</button>
+        <button id="copyBtn">Copy</button>
+      </div>
 
-C. Identity & Personal Records
-- Birth Certificate (sample)
-- Proof of Identity
-- Proof of Address
-- Marriage Certificate (sample)
-- Academic Transcript
-- Training Completion Certificate
-- Professional License Certificate
-- Background Check Certificate
+      <button id="submitBtn">Submit</button>
+    </div>
 
-D. Assets & Ownership
-- Title of Ownership
-- Proof of Ownership
-- Transfer of Ownership
-- Inventory Verification Report
-- Asset Registration Certificate
+    <!-- BULK UPLOAD -->
+    <div id="bulkUpload" class="hidden">
+      <h3>Bulk CSV Upload</h3>
+      <input type="file" id="csvFile" accept=".csv">
+      <button id="submitCsv">Submit CSV</button>
+    </div>
+  </section>
 
-E. Supply Chain & Logistics
-- Delivery Confirmation Certificate
-- Chain-of-Custody Document
-- Shipping Manifest
-- Bill of Lading (simplified)
-- Proof of Delivery
+  <!-- Results -->
+  <section id="resultsBox" class="hidden">
+    <h2>Document Metadata</h2>
+    <p><strong>Filename:</strong> <span id="tyonId"></span></p>
+    <p><strong>Pages:</strong> <span id="timestamp"></span></p>
 
-F. Regulatory & Audit
-- Audit Report Certificate
-- Compliance Review Report
-- Risk Assessment Certificate
-- Internal Control Certification
+    <a id="hashscanLink" href="#" target="_blank">View on HashScan</a><br>
+    <a id="stampedPdfLink" download="tyon_encoded.txt">Download Stamped File</a>
+  </section>
 
-G. Misc / Industry-Specific
-- Voting Card
-- Medical Test Result Certificate (HIPAA-safe sample)
-- Laboratory Report Certificate
-- Food Safety Certificate
-- Environmental Impact Statement
-- Ethical Sourcing Certificate
-- Event Ticket (verifiable)
-- Product Warranty Card
-        </pre>
-      </aside>
+  <!-- Sidebar -->
+  <aside id="docSidebar">
+    <h3>Recognized Document Types</h3>
+    <pre>
+Legal & Business:
+• Contract
+• Employment Contract
+• Service Agreement
+• Lease Agreement
+• NDA
+• MOU
+• Purchase Agreement
+• Partnership Agreement
 
-    </section>
+Certificates:
+• Certificate of Authenticity
+• Product Creation
+• Compliance
+• Warranty
+• Calibration
+• Inspection
+• Sustainability
 
-  </div>
+Identity Records:
+• Birth Certificate
+• Proof of Address
+• License Certificate
+• Background Check
+• Academic Transcript
 
-  <!-- App Logic -->
-  <script src="Test_script.js"></script>
+Assets:
+• Title of Ownership
+• Transfer of Ownership
+• Inventory Verification
+
+Misc:
+• Voting Card
+• Medical Test Result
+• Lab Report
+• Food Safety Certificate
+• Event Ticket
+• Original Artwork
+• Manuscripts / Books
+    </pre>
+  </aside>
+
+  <!-- Correct updated JS bundle -->
+  <script src="js/utils.js"></script>
+  <script src="js/identity.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/results.js"></script>
+  <script src="js/tyon_testnet_client.js"></script>
 </body>
 </html>

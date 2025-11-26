@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tyon Testnet — Upload</title>
+<link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+<div class="container">
+<img src="assets/logo-dark.png" class="logo" />
+
+
+<h1>Upload Your Document</h1>
+
+
+<label>Select a sample document</label>
+<select id="sampleSelect"></select>
+
+
+<button id="useSampleBtn">Use This Sample</button>
+
+
+<label>or Upload your own</label>
+<input id="pdfUpload" type="file" accept="application/pdf,image/jpeg" />
+
+
+<label>Memo</label>
+<textarea id="memo"></textarea>
+
+
+<button id="processBtn">Submit</button>
+</div>
+
+
+<script src="js/utils.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/processDocument.js"></script>
+</body>
+</html>
