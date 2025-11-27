@@ -1,57 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tyon Alpha Protocol Testnet — Demo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tyon Alpha Protocol Testnet — Demo</title>
+
+  <!-- Unified Theme Inline CSS -->
+  <style>
+    :root{
+      --bg: #0f1720;           /* deep slate background */
+      --card: #0b1220;         /* high-contrast card */
+      --accent: #00c2b3;       /* electric teal */
+      --muted: #94a3b8;        /* subtle text */
+      --white: #f8fafc;        /* bright text */
+      --radius: 16px;           /* card border radius */
+      --shadow: 0 10px 30px rgba(2,6,23,0.7);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--white);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 48px auto;
+      padding: 24px;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .single-card {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .entry-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    input[type="text"], input[type="file"] {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: transparent;
+      color: var(--white);
+      min-width: 220px;
+    }
+
+    button.cta {
+      background: var(--accent);
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      color: #012;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button.cta:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .doctype {
+      background: rgba(255,255,255,0.02);
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+
+    .upload-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media(min-width: 880px) {
+      .upload-flex {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .upload-left { flex: 1; }
+      .upload-right { flex: 0 0 320px; }
+    }
+
+    .dropzone {
+      border: 2px dashed rgba(255,255,255,0.04);
+      padding: 20px;
+      border-radius: 12px;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      cursor: pointer;
+    }
+
+    .meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .pill {
+      background: rgba(255,255,255,0.03);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .tooltip-btn {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    .popover {
+      position: absolute;
+      background: var(--card);
+      color: var(--white);
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      width: 300px;
+      z-index: 60;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <header class="hero">
-    <div style="max-width:900px;text-align:center;">
+  <div class="container">
+    <header class="hero">
       <h1>Tyon Alpha Protocol Testnet</h1>
       <p>Cryptographic proof at document creation — instant, court-ready, single source of custody.</p>
-      <div class="small">Instant hashing · Timestamped evidence · Public verification<br>We do not store files — only proofs.</div>
-    </div>
+      <div class="small">Instant hashing · Timestamped evidence · Public verification</div>
 
-    <!-- Entry Card -->
-    <div class="card single-card" id="entryCard" aria-labelledby="entry">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <strong id="entry">Enter Info to Begin Test</strong>
-        <button class="tooltip-btn" data-tip="testnet">?</button>
-      </div>
-      <div style="height:14px"></div>
-      <div class="entry-row" role="form" aria-label="Entry form">
-        <input id="name" type="text" placeholder="Your name" aria-label="Name">
-        <input id="company" type="text" placeholder="Company (optional)" aria-label="Company">
-        <button id="enterBtn" class="cta">Enter Alpha Protocol</button>
-      </div>
-      <div class="small" style="margin-top:12px;text-align:center;">We do not store files — only proofs.</div>
+      <!-- Entry Card -->
+      <div class="card single-card" id="entryCard">
+        <strong>Enter Info to Begin Test</strong>
+        <div class="entry-row">
+          <input id="name" type="text" placeholder="Your name">
+          <input id="company" type="text" placeholder="Company (optional)">
+          <button id="enterBtn" class="cta">Enter Alpha Protocol</button>
+        </div>
+        <div class="small" style="text-align:center;margin-top:12px;">We do not store files — only proofs.</div>
 
-      <div class="grid" style="margin-top:14px;">
-        <div class="doctype">PDF</div>
-        <div class="doctype">JPG / PNG</div>
-        <div class="doctype">Contracts</div>
-        <div class="doctype">Invoices</div>
-        <div class="doctype">Receipts</div>
-        <div class="doctype">Forms</div>
+        <div class="grid">
+          <div class="doctype">PDF</div>
+          <div class="doctype">JPG / PNG</div>
+          <div class="doctype">Contracts</div>
+          <div class="doctype">Invoices</div>
+          <div class="doctype">Receipts</div>
+          <div class="doctype">Forms</div>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Upload area -->
-  <main>
-    <div class="card upload-flex" style="margin-top:22px;">
-      <div class="upload-left">
+    <!-- Upload area -->
+    <main class="upload-flex">
+      <div class="upload-left card">
         <strong>Upload a document — generate a proof</strong>
-        <p class="small" style="margin-top:6px;">Your file is parsed client-side. Only a hash and metadata are sent to the Testnet.</p>
-
-        <div style="height:12px"></div>
+        <p class="small">Your file is parsed client-side. Only a hash and metadata are sent to the Testnet.</p>
 
         <div class="dropzone" id="dropzone">
-          <div style="max-width:420px">
+          <div style="max-width:420px;">
             <div style="font-weight:600;margin-bottom:8px;">Choose a Document to Test</div>
-            <div class="small">Drag & drop here or <button id="fileSelectBtn" class="tooltip-btn" style="text-decoration:underline;color:var(--accent);">select file</button></div>
+            <div class="small">Drag & drop here or <button id="fileSelectBtn" class="tooltip-btn" style="color:var(--accent);text-decoration:underline;">select file</button></div>
             <input id="fileInput" type="file" accept=".pdf,image/*" style="display:none;">
           </div>
         </div>
@@ -59,41 +237,26 @@
         <div class="meta">
           <div class="pill" id="fileMeta">No file selected</div>
           <div class="pill" id="pageMeta" hidden>Pages: <span id="pageCount">0</span></div>
-          <input id="memo" type="text" placeholder="Memo (optional)" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);min-width:200px;background:transparent;color:var(--white);">
+          <input id="memo" type="text" placeholder="Memo (optional)" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white);min-width:200px;">
           <button id="generateBtn" class="cta" disabled>Generate Proof</button>
         </div>
 
         <div class="footer-note">Proofs anchored on the Testnet. Exportable stamped files and public HashScan lookup.</div>
       </div>
 
-      <aside class="upload-right" style="padding-left:14px;">
-        <div style="position:relative;">
-          <div class="card" style="padding:14px;">
-            <strong style="display:flex;justify-content:space-between;align-items:center;">Quick help <button class="tooltip-btn" data-tip="help">?</button></strong>
-            <div style="height:8px"></div>
-            <div class="small">Short tutorial: click the ? icons for context-sensitive help. Files are parsed in your browser; if page count is missing, try another PDF or contact support.</div>
-            <div style="height:12px"></div>
-            <div style="display:flex;gap:8px;flex-direction:column;">
-              <div style="font-size:13px;"><strong>What this test does</strong></div>
-              <ul style="margin:6px 0 0 18px;color:var(--muted);font-size:13px;">
-                <li>Creates a file hash & timestamp</li>
-                <li>Returns proof metadata</li>
-                <li>Exports a stamped file</li>
-                <li>Public HashScan verification</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <aside class="upload-right card">
+        <strong>Quick Help <button class="tooltip-btn" data-tip="help">?</button></strong>
+        <div class="small" style="margin-top:6px;">Short tutorial: click the ? icons for context-sensitive help. Files are parsed in your browser; if page count is missing, try another PDF or contact support.</div>
       </aside>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 
-<!-- Popover container -->
-<div id="popoverRoot" aria-hidden="true"></div>
+  <div id="popoverRoot" aria-hidden="true"></div>
 
-<script src="js/upload.js" type="module"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <!-- PDF.js (needed for page count) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+  <!-- JS logic (tooltip, file handling, entry, generate) -->
+  <script src="js/upload.js" type="module"></script>
 </body>
 </html>
-
