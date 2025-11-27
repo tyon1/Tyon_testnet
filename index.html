@@ -1,151 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Tyon Testnet Demo</title>
-
-  <!-- Correct updated stylesheet -->
-  <link rel="stylesheet" href="css/Test_style.css">
-
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tyon Alpha Protocol Testnet — Demo</title>
+<link rel="stylesheet" href="css/test_style.css">
 </head>
-
 <body>
-  <header>
-    <img src="assets/logo-dark.png" alt="Tyon Logo" class="logo">
-    <h1>Tyon Alpha Protocol – Testnet Simulation</h1>
+<div class="container">
+  <header class="hero">
+    <div style="max-width:900px;text-align:center;">
+      <h1>Tyon Alpha Protocol Testnet</h1>
+      <p>Cryptographic proof at document creation — instant, court-ready, single source of custody.</p>
+      <div class="small">Instant hashing · Timestamped evidence · Public verification<br>We do not store files — only proofs.</div>
+    </div>
+
+    <!-- Entry Card -->
+    <div class="card single-card" id="entryCard" aria-labelledby="entry">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <strong id="entry">Enter Info to Begin Test</strong>
+        <button class="tooltip-btn" data-tip="testnet">?</button>
+      </div>
+      <div style="height:14px"></div>
+      <div class="entry-row" role="form" aria-label="Entry form">
+        <input id="name" type="text" placeholder="Your name" aria-label="Name">
+        <input id="company" type="text" placeholder="Company (optional)" aria-label="Company">
+        <button id="enterBtn" class="cta">Enter Alpha Protocol</button>
+      </div>
+      <div class="small" style="margin-top:12px;text-align:center;">We do not store files — only proofs.</div>
+
+      <div class="grid" style="margin-top:14px;">
+        <div class="doctype">PDF</div>
+        <div class="doctype">JPG / PNG</div>
+        <div class="doctype">Contracts</div>
+        <div class="doctype">Invoices</div>
+        <div class="doctype">Receipts</div>
+        <div class="doctype">Forms</div>
+      </div>
+    </div>
   </header>
 
-  <!-- Identity Screen -->
-  <section id="identityScreen">
-    <h2>Identify Yourself</h2>
-    <form id="identityForm">
-      <div class="input-group">
-        <label for="userName">Name</label>
-        <input type="text" id="userName" placeholder="Enter your full name" required>
-      </div>
-      <div class="input-group">
-        <label for="companyName">Company</label>
-        <input type="text" id="companyName" placeholder="Enter company name" required>
-      </div>
-      <button id="proceedBtn" type="submit" disabled>Proceed</button>
-    </form>
-  </section>
+  <!-- Upload area -->
+  <main>
+    <div class="card upload-flex" style="margin-top:22px;">
+      <div class="upload-left">
+        <strong>Upload a document — generate a proof</strong>
+        <p class="small" style="margin-top:6px;">Your file is parsed client-side. Only a hash and metadata are sent to the Testnet.</p>
 
-  <!-- Upload Screen -->
-  <section id="uploadScreen" class="hidden">
-    <h2>Upload Your Document</h2>
+        <div style="height:12px"></div>
 
-    <div class="upload-tabs">
-      <button class="tab active" id="singleTab">Single Upload</button>
-      <button class="tab" id="bulkTab">Bulk Upload</button>
+        <div class="dropzone" id="dropzone">
+          <div style="max-width:420px">
+            <div style="font-weight:600;margin-bottom:8px;">Choose a Document to Test</div>
+            <div class="small">Drag & drop here or <button id="fileSelectBtn" class="tooltip-btn" style="text-decoration:underline;color:var(--accent);">select file</button></div>
+            <input id="fileInput" type="file" accept=".pdf,image/*" style="display:none;">
+          </div>
+        </div>
+
+        <div class="meta">
+          <div class="pill" id="fileMeta">No file selected</div>
+          <div class="pill" id="pageMeta" hidden>Pages: <span id="pageCount">0</span></div>
+          <input id="memo" type="text" placeholder="Memo (optional)" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);min-width:200px;background:transparent;color:var(--white);">
+          <button id="generateBtn" class="cta" disabled>Generate Proof</button>
+        </div>
+
+        <div class="footer-note">Proofs anchored on the Testnet. Exportable stamped files and public HashScan lookup.</div>
+      </div>
+
+      <aside class="upload-right" style="padding-left:14px;">
+        <div style="position:relative;">
+          <div class="card" style="padding:14px;">
+            <strong style="display:flex;justify-content:space-between;align-items:center;">Quick help <button class="tooltip-btn" data-tip="help">?</button></strong>
+            <div style="height:8px"></div>
+            <div class="small">Short tutorial: click the ? icons for context-sensitive help. Files are parsed in your browser; if page count is missing, try another PDF or contact support.</div>
+            <div style="height:12px"></div>
+            <div style="display:flex;gap:8px;flex-direction:column;">
+              <div style="font-size:13px;"><strong>What this test does</strong></div>
+              <ul style="margin:6px 0 0 18px;color:var(--muted);font-size:13px;">
+                <li>Creates a file hash & timestamp</li>
+                <li>Returns proof metadata</li>
+                <li>Exports a stamped file</li>
+                <li>Public HashScan verification</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
+  </main>
+</div>
 
-    <!-- SINGLE UPLOAD -->
-    <div id="singleUpload">
-      <h3>Document Selection</h3>
+<!-- Popover container -->
+<div id="popoverRoot" aria-hidden="true"></div>
 
-      <div class="file-row">
-        <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg">
-        <select id="sampleSelector"></select>
-      </div>
-
-      <div class="input-group">
-        <label for="filename">Filename</label>
-        <input type="text" id="filename" placeholder="Auto-filled">
-      </div>
-
-      <div class="input-group">
-        <label for="pageCount">Pages</label>
-        <input type="text" id="pageCount" disabled>
-      </div>
-
-      <div class="input-group">
-        <label for="memo">Memo</label>
-        <textarea id="memo" placeholder="Optional memo"></textarea>
-      </div>
-
-      <div class="action-row">
-        <button id="encryptBtn">Encrypt</button>
-        <button id="decryptBtn">Decrypt</button>
-        <button id="obfuscateBtn">Obfuscate</button>
-        <button id="maskBtn">Mask</button>
-        <button id="copyBtn">Copy</button>
-      </div>
-
-      <button id="submitBtn">Submit</button>
-    </div>
-
-    <!-- BULK UPLOAD -->
-    <div id="bulkUpload" class="hidden">
-      <h3>Bulk CSV Upload</h3>
-      <input type="file" id="csvFile" accept=".csv">
-      <button id="submitCsv">Submit CSV</button>
-    </div>
-  </section>
-
-  <!-- Results -->
-  <section id="resultsBox" class="hidden">
-    <h2>Document Metadata</h2>
-    <p><strong>Filename:</strong> <span id="tyonId"></span></p>
-    <p><strong>Pages:</strong> <span id="timestamp"></span></p>
-
-    <a id="hashscanLink" href="#" target="_blank">View on HashScan</a><br>
-    <a id="stampedPdfLink" download="tyon_encoded.txt">Download Stamped File</a>
-  </section>
-
-  <!-- Sidebar -->
-  <aside id="docSidebar">
-    <h3>Recognized Document Types</h3>
-    <pre>
-Legal & Business:
-• Contract
-• Employment Contract
-• Service Agreement
-• Lease Agreement
-• NDA
-• MOU
-• Purchase Agreement
-• Partnership Agreement
-
-Certificates:
-• Certificate of Authenticity
-• Product Creation
-• Compliance
-• Warranty
-• Calibration
-• Inspection
-• Sustainability
-
-Identity Records:
-• Birth Certificate
-• Proof of Address
-• License Certificate
-• Background Check
-• Academic Transcript
-
-Assets:
-• Title of Ownership
-• Transfer of Ownership
-• Inventory Verification
-
-Misc:
-• Voting Card
-• Medical Test Result
-• Lab Report
-• Food Safety Certificate
-• Event Ticket
-• Original Artwork
-• Manuscripts / Books
-    </pre>
-  </aside>
-
-  <!-- Correct updated JS bundle -->
-  <script src="js/utils.js"></script>
-  <script src="js/identity.js"></script>
-  <script src="js/upload.js"></script>
-  <script src="js/results.js"></script>
-  <script src="js/tyon_testnet_client.js"></script>
+<script src="js/upload.js" type="module"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </body>
 </html>
+

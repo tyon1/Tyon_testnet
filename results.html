@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tyon Testnet — Results</title>
-<link rel="stylesheet" href="css/main.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tyon Alpha Protocol Testnet — Results</title>
+<link rel="stylesheet" href="css/test_style.css">
 </head>
 <body>
 <div class="container">
-<img src="assets/logo-dark.png" class="logo" />
-
-
-<h1>Document Metadata</h1>
-
-
-<p><strong>Filename:</strong> <span id="r_filename"></span></p>
-<p><strong>Pages:</strong> <span id="r_pages"></span></p>
-<p><strong>Signer:</strong> <span id="r_signer"></span></p>
-<p><strong>Timestamp:</strong> <span id="r_timestamp"></span></p>
-
-
-<a id="hashscanLink" target="_blank">View on HashScan</a>
-<br />
-<a id="downloadLink" download>Download Stamped PDF</a>
+  <h1>Document Proof Results</h1>
+  <div class="card">
+    <strong>File Metadata</strong>
+    <div class="meta">
+      <div class="pill">Filename: <span id="fileName">Loading...</span></div>
+      <div class="pill" id="pagePill">Pages: <span id="pageCount">0</span></div>
+      <div class="pill">Memo: <span id="memoText">N/A</span></div>
+      <div class="pill">SHA-256 Hash: <span id="hashVal">Loading...</span></div>
+    </div>
+    <div style="margin-top:20px;">
+      <button id="downloadBtn" class="cta">Download Stamped File</button>
+    </div>
+    <div class="small">
+      Proofs anchored on the Testnet. Exportable stamped files and public <a href="#" target="_blank" id="hashscanLink">HashScan lookup</a>.
+    </div>
+  </div>
 </div>
 
+<script>
+const fileNameSpan = document.getElementById('fileName');
+const pageCountSpan = document.getElementById('pageCount');
+const memoTextSpan = document.getElementById('memoText');
+const hashValSpan = document.getElementById('hashVal');
+const downloadBtn = document.getElementById('downloadBtn');
+const hashscanLink = document.getElementById('hashscanLink');
 
-<script src="js/results.js"></script>
+const fileName = sessionStorage.getItem('selectedFile') || '(none)';
+const memoText = sessionStorage.getItem('memo') || '';
+const hash = sessionStorage.getItem('hash') || 'simulatedhash1234567890abcdef';
+const pages = sessionStorage.getItem('pages') || '1';
+
+fileNameSpan.textContent = fileName;
+memoTextSpan.textContent = memoText || 'N/A';
+pageCountSpan.textContent = pages;
+hashValSpan.textContent = hash;
+
+downloadBtn.onclick = ()=>{
+  const blob = new Blob([`Tyon stamped file\nFilename: ${fileName}\nMemo: ${memoText}\nPages: ${pages}\nHash: ${hash}`], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url;
+  a.download = fileName.replace(/\.[^.]+$/,'')+'.tyon-stamped.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  alert('Stamped proof downloaded (simulated).');
+};
+hashscanLink.href='https://hashscan.io/testnet/simulated/'+hash;
+</script>
 </body>
 </html>
